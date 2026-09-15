@@ -20,6 +20,19 @@
       gtag('js', new Date());
 
       gtag('config', 'G-ELDBXXSZQZ');
+
+      // Lead Tracking Event
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const lead = urlParams.get('lead') || urlParams.get('ref') || urlParams.get('utm_lead') || urlParams.get('email');
+        if (lead) {
+          gtag('event', 'lead_opened_showcase', {
+            lead_email: lead,
+            lead_source: 'cold_email',
+            page_location: window.location.href
+          });
+        }
+      } catch (e) {}
     </script>
     
     <script type="module" crossorigin src="./assets/index-BpYqeX6u.js"></script>

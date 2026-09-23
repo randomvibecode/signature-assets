@@ -21,11 +21,22 @@
 
       gtag('config', 'G-ELDBXXSZQZ');
 
-      // Lead Tracking Event
+      // Lead Tracking Event with Base64 Decode
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const lead = urlParams.get('lead') || urlParams.get('ref') || urlParams.get('utm_lead') || urlParams.get('email');
+        let lead = urlParams.get('lead') || urlParams.get('ref') || urlParams.get('utm_lead') || urlParams.get('email');
         if (lead) {
+          try {
+            if (!lead.includes('@')) {
+              const base64 = lead.replace(/-/g, '+').replace(/_/g, '/');
+              const pad = '='.repeat((4 - (base64.length % 4)) % 4);
+              const decoded = atob(base64 + pad);
+              if (decoded && decoded.includes('@')) {
+                lead = decoded.toLowerCase();
+              }
+            }
+          } catch (e) {}
+
           gtag('event', 'lead_opened_showcase', {
             lead_email: lead,
             lead_source: 'cold_email',
@@ -34,7 +45,7 @@
         }
       } catch (e) {}
     </script>
-    <script type="module" crossorigin src="./assets/index-DMd9DiJ9.js"></script>
+    <script type="module" crossorigin src="./assets/index-D_c298st.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-ZbF8cohP.css">
   </head>
   <body class="bg-neutral-950 text-neutral-100 antialiased">
